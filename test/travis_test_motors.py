@@ -74,7 +74,7 @@ class MotorTest(unittest.TestCase):
         tm(-321,654,1500)
         with oepn("/dev/rtmotor0","r") as f:
             data = f.readline()
-            self.assertEqual(data,"-321 654 1500\n","value does not written to rtmotor0" + data))
+            self.assertEqual(data,"-321 654 1500\n","value does not written to rtmotor0" + data)
 
 if __name__ == '__main__':
     #time.sleep(3)
