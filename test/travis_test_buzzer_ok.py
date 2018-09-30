@@ -4,24 +4,22 @@ import rospy, unittest, rostest, actionlib
 import rosnode
 import time
 from std_msgs.msg import UInt16
-from pimouse_ros.msg import MusicAction, MusicResult, MusicFeedback, MusicGoal
+from pimouse_ros.msg import MusicAction, MusicResult, MusicFeedback, MusicGoal #1行追加
 
 class BuzzerTest(unittest.TestCase):
-    def setUp(self):
+    def setUp(self):                                #setUpメソッドを追加する
         self.client = actionlib.SimpleActionClient("music", MusicAction)
         self.device_values = []
-    
+
     def test_node_exist(self):
         nodes = rosnode.get_node_names()
-        self.assertIn('/buzzer', nodes, "node does not exist")
+        self.assertIn('/buzzer',nodes, "node does not exist")
 
     def test_put_value(self):
         pub = rospy.Publisher('/buzzer', UInt16)
         for i in range(10):
             pub.publish(1234)
             time.sleep(0.1)
-#            pub.publish(0)
-#            time.sleep(0.1)
 
         with open("/dev/rtbuzzer0","r") as f:
             data = f.readline()
@@ -38,7 +36,7 @@ class BuzzerTest(unittest.TestCase):
 
         self.assertTrue(self.client.get_result(),"invalid result")
         self.assertEqual(goal.freqs,self.device_values,"invalid feedback:"
-                         + ",".join([str(e) for e in self.device_values]))
+                + ",".join([str(e) for e in self.device_values]))
 
         ###preemption###
         self.device_values = []
@@ -52,8 +50,12 @@ class BuzzerTest(unittest.TestCase):
         with open("/dev/rtbuzzer0","r") as f:
             data = f.readline()
             self.device_values.append(int(data.rstrip()))
-                
+
 if __name__ == '__main__':
     time.sleep(3)
     rospy.init_node('travis_test_buzzer')
-    rostest.rosrun('pimouse_ros', 'travis_test_buzzer', BuzzerTest)
+    rostest.rosrun('pimouse_ros','travis_test_buzzer',BuzzerTest)
+
+# Copyright 2016 Ryuichi Ueda
+# Released under the BSD License.
+# To make line numbers be identical with the book, this statement is written here. Don't move it to the header.
