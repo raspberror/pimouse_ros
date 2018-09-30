@@ -69,12 +69,12 @@ class MotorTest(unittest.TestCase):
             data = f.readline()
             self.assertEqual(data,"0\n", "wrong value in rtmotor0 at motor off")
 
-#    def ztest_put_value_timed(self):
-#        tm = rospy.ServiceProxy('/timed_motion', TimedMotion)
-#        tm(-321,654,1500)
-#        with oepn("/dev/rtmotor0","r") as f:
-#            data = f.readline()
-#            self.assertEqual(data,"-321 654 654 1500\n","value does not written to rtmotor0"))
+    def test_put_value_timed(self):
+        tm = rospy.ServiceProxy('/timed_motion', TimedMotion)
+        tm(-321,654,1500)
+        with oepn("/dev/rtmotor0","r") as f:
+            data = f.readline()
+            self.assertEqual(data,"-321 654 1500\n","value does not written to rtmotor0"))
 
 if __name__ == '__main__':
     #time.sleep(3)
